@@ -24,7 +24,7 @@ setup(
     ],
     extras_require={
         'test': [
-            'mypy',
+            'mypy;python_version>="3"',
             'pycodestyle',
             'pylint',
             'pytest',
