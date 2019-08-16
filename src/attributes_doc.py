@@ -16,15 +16,15 @@ class FStringFound(Exception):
 def get_attributes_doc(cls):
     # type: (type) -> Dict[str, str]
     result = {}  # type: Dict[str, str]
-    for cls in reversed(cls.mro()):
+    for parent in reversed(cls.mro()):
         try:
-            source = inspect.getsource(cls)
+            source = inspect.getsource(parent)
         except TypeError:
             continue
         source = textwrap.dedent(source)
         module = ast.parse(source)
         cls_ast = module.body[0]
-        for stmt1, stmt2 in zip(cls_ast.body, cls_ast.body[1:]):
+        for stmt1, stmt2 in zip(cls_ast.body, cls_ast.body[1:]):  # type: ignore
             if (
                     not isinstance(stmt1, (ast.AnnAssign, ast.Assign))
                     or not isinstance(stmt2, ast.Expr)
@@ -35,9 +35,9 @@ def get_attributes_doc(cls):
                 raise FStringFound
             if isinstance(doc_expr_value, ast.Str):
                 if isinstance(stmt1, ast.AnnAssign):
-                    attr_names = [stmt1.target.id]
+                    attr_names = [stmt1.target.id]  # type: ignore
                 else:
-                    attr_names = [target.id for target in stmt1.targets]
+                    attr_names = [target.id for target in stmt1.targets]  # type: ignore
                 for attr_name in attr_names:
                     result[attr_name] = doc_expr_value.s
     return result
