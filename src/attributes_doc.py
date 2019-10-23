@@ -1,8 +1,8 @@
 import ast
-import sys
 import inspect
+import sys
 import textwrap
-from typing import Dict, Type, TypeVar, Tuple
+from typing import Dict, Tuple, Type, TypeVar
 
 
 __all__ = ['get_attributes_doc', 'attributes_doc']
@@ -24,9 +24,11 @@ def get_attributes_doc(cls):
     # type: (type) -> Dict[str, str]
     result = {}  # type: Dict[str, str]
     for parent in reversed(cls.mro()):
+        if cls is object:
+            continue
         try:
             source = inspect.getsource(parent)
-        except TypeError:
+        except (TypeError, IOError):
             continue
         source = textwrap.dedent(source)
         module = ast.parse(source)

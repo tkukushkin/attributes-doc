@@ -24,11 +24,11 @@ setup(
     ],
     extras_require={
         'test': [
+            'coverage',
             'mypy;python_version>="3"',
             'pycodestyle',
-            'pylint',
-            'pytest',
-            'pytest-cov',
+            'pylint<2',
+            'pytest<5',
         ],
     },
     classifiers=[
