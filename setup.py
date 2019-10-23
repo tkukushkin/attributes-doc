@@ -27,7 +27,7 @@ setup(
             'coverage',
             'mypy;python_version>="3"',
             'pycodestyle',
-            'pylint<2',
+            'pylint;python_version>="3"',
             'pytest<5',
         ],
     },
