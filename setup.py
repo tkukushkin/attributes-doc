@@ -9,7 +9,7 @@ with open(os.path.join(this_directory, 'README.md')) as f:
 
 setup(
     name='attributes-doc',
-    version='0.1.0',
+    version='0.1.1',
     url='https://github.com/tkukushkin/attributes-doc',
     author='Timofey Kukushkin',
     author_email='tima@kukushkin.me',
