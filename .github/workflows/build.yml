@@ -72,6 +72,7 @@ jobs:
       run: |
         echo ::set-output name=tar_gz::$(basename $(/bin/ls dist/*.tar.gz))
         echo ::set-output name=whl::$(basename $(ls dist/*.whl))
+    
     - name: Upload .tar.gz
       uses: actions/upload-release-asset@v1.0.1
       env:
