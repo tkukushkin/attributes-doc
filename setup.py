@@ -28,7 +28,7 @@ setup(
             'mypy;python_version>="3"',
             'pycodestyle',
             'pylint;python_version>="3"',
-            'pytest<5',
+            'pytest<6',
         ],
     },
     classifiers=[
