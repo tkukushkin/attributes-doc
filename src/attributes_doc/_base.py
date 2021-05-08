@@ -46,7 +46,7 @@ def get_attributes_doc(cls):
                 if PY35 and isinstance(stmt1, ast.AnnAssign):
                     attr_names = [stmt1.target.id]  # type: ignore
                 else:
-                    attr_names = [target.id for target in stmt1.targets]  # type: ignore
+                    attr_names = [target.id for target in stmt1.targets]
                 for attr_name in attr_names:
                     result[attr_name] = doc_expr_value.s
     return result

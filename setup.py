@@ -17,18 +17,21 @@ setup(
     long_description=long_description,
     long_description_content_type='text/markdown',
     license='MIT',
-    py_modules=['attributes_doc'],
+    packages=find_packages('src'),
     package_dir={'': 'src'},
+    include_package_data=True,
     install_requires=[
-        'typing;python_version<"3"',
+        'typing; python_version<"3"',
     ],
     extras_require={
         'test': [
             'coverage',
-            'mypy;python_version>="3"',
-            'pycodestyle',
-            'pylint;python_version>="3"',
-            'pytest<5',
+            'mypy; python_version>="3.9"',
+            'pycodestyle; python_version>="3.9"',
+            'pylint; python_version>="3.9"',
+            'pytest<5; python_version<"3"',
+            'pytest; python_version>="3"',
+            'pytest-cov',
         ],
     },
     classifiers=[
@@ -42,6 +45,7 @@ setup(
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],
     project_urls={
