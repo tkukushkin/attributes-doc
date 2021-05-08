@@ -69,14 +69,19 @@ jobs:
         TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
       run: twine upload dist/*
 
+    - name: Get tag message
+      id: get_tag_message
+      run: echo ::set-output name=msg::$(git tag --format '%(contents)' -l ${GITHUB_REF#refs/*/})
+
     - name: Create Github Release
       id: create_release
-      uses: actions/create-release@v1.0.0
+      uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: ${{ github.ref }}
         release_name: ${{ github.ref }}
+        body: ${{ steps.get_tag_message.outputs.msg }}
 
     - name: Get release assets names
       id: get_release_names
