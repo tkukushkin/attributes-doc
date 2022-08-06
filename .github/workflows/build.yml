@@ -42,7 +42,7 @@ jobs:
       uses: codecov/codecov-action@v1.0.3
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
-        file: .tox/${{ matrix.toxenv }}/log/coverage.xml
+        file: .tox/tests_py${{ matrix.tox_python_version }}/log/coverage.xml
 
   lint:
     runs-on: ubuntu-latest
