@@ -5,7 +5,7 @@ import textwrap
 from typing import Any, Dict, Tuple, Type, TypeVar
 
 
-__all__ = ["get_attributes_doc", "attributes_doc", "enum_doc", "getdoc"]
+__all__ = ["get_attributes_doc", "attributes_doc", "enum_doc", "get_doc"]
 
 PY35 = sys.version_info[0:2] >= (3, 5)
 
@@ -74,7 +74,7 @@ def enum_doc(cls):
     return cls
 
 
-def getdoc(obj, attr_name):
+def get_doc(obj, attr_name):
     # type: (Any, str) -> str | None
     """Get the docstring of a class attribute of a class or an instance of that class.
 

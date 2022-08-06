@@ -14,7 +14,7 @@ This package provides the following functions:
 - `attributes_doc`
 - `get_attributes_doc`
 - `enum_doc`
-- `getdoc`
+- `get_doc`
 
 ### Decorator `attributes_doc`
 
@@ -76,12 +76,12 @@ class Foo(Enum):
 print(Foo.bar.__doc__)
 ```
 
-### Function `getdoc`
+### Function `get_doc`
 
 This function will return the docstring of an attribute of a class.
 
 ```py
-from attributes_doc import getdoc
+from attributes_doc import get_doc
 
-print(getdoc(Foo, "baz")) # Instead of getattr(Foo, "__doc_baz__") above
+print(get_doc(Foo, "baz")) # Instead of getattr(Foo, "__doc_baz__") above
 ```
