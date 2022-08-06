@@ -1,4 +1,5 @@
 import ast
+from enum import Enum
 import inspect
 import sys
 import textwrap
@@ -10,7 +11,7 @@ __all__ = ["get_attributes_doc", "attributes_doc", "enum_doc", "get_doc"]
 PY35 = sys.version_info[0:2] >= (3, 5)
 
 T = TypeVar("T")
-TEnum = TypeVar("TEnum")
+TEnum = TypeVar("TEnum", bound=Enum)
 
 assign_stmts = (ast.Assign,)  # type: Tuple[Type[ast.stmt], ...]
 if PY35:
@@ -63,16 +64,16 @@ def attributes_doc(cls):
     # type: (Type[T]) -> Type[T]
     """Store the docstings of the attributes of a class in attributes named `__doc_NAME__`."""
     for attr_name, attr_doc in get_attributes_doc(cls).items():
-        setattr(cls, "__doc_%s__" % attr_name, attr_doc)
+        setattr(cls, "__doc_{}__".format(attr_name), attr_doc)
     return cls
 
 
 def enum_doc(cls):
     # type: (Type[TEnum]) -> Type[TEnum]
     """Store the docstrings of the vaules of an enum in their `__doc__` attribute."""
-    attributes_doc = get_attributes_doc(cls)
+    docs = get_attributes_doc(cls)
     for member in cls:
-        doc = attributes_doc.get(member.name)
+        doc = docs.get(member.name)
         if doc is not None:
             member.__doc__ = doc
     return cls
@@ -89,4 +90,4 @@ def get_doc(obj, attr_name):
     Returns:
         str | None: The docstring of the class attribute or None if no docstring was found.
     """
-    return getattr(obj, "__doc_%s__" % attr_name, None)
+    return getattr(obj, "__doc_{}__".format(attr_name), None)
