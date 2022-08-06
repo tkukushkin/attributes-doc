@@ -7,3 +7,81 @@
 
 
 Hacky implementation of [PEP 224](https://www.python.org/dev/peps/pep-0224/).
+
+## Usage
+
+This package provides the following functions:
+- `attributes_doc`
+- `get_attributes_doc`
+- `enum_doc`
+- `get_doc`
+
+### Decorator `attributes_doc`
+
+This function is a class decorator, and using it on a class will set class attributes called `__doc_ATTRNAME__` for each existing attribute.
+
+```py
+from attributes_doc import attributes_doc
+
+@attributes_doc
+class Foo:
+	bar = 1
+	"""This is the docstring for the bar attribute.
+
+	It will be stored in `Foo.__doc_bar__` and will be accessible at runtime.
+	"""
+
+	baz = 2
+	"""This is the docstring for the baz attribute."""
+
+
+print(Foo.__doc_bar__)
+print(getattr(Foo, "__doc_baz__"))
+```
+
+### Function `get_attributes_doc`
+
+This function will return a dictionary with the docstrings for all attributes of a class without setting them.
+
+```py
+from attributes_doc import get_attributes_doc
+
+class Goo:
+	"""This class doesn't use attributes_doc and we don't want to modify it at all."""
+	bar = 1
+	"""This is the docstring for the bar attribute."""
+	baz = 2
+	"""This is the docstring for the baz attribute."""
+
+docs = get_attributes_doc(Goo)
+print(docs["bar"])
+print(docs["baz"])
+```
+
+### Decorator `enum_doc`
+
+This is also a class decorator, but it is intended for Enum classes. Instead of setting one doc attribute per attribute to the containing class, it will set the `__doc__` attribute for each enum value.
+
+```py
+from attributes_doc import enum_doc
+from enum import Enum
+
+@enum_doc
+class Foo(Enum):
+	bar = 1
+	"""This is the docstring for the bar attribute."""
+	baz = 2
+	"""This is the docstring for the baz attribute."""
+
+print(Foo.bar.__doc__)
+```
+
+### Function `get_doc`
+
+This function will return the docstring of an attribute of a class.
+
+```py
+from attributes_doc import get_doc
+
+print(get_doc(Foo, "baz")) # Instead of getattr(Foo, "__doc_baz__") above
+```

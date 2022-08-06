@@ -2,16 +2,16 @@ import ast
 import inspect
 import sys
 import textwrap
-from typing import Dict, Tuple, Type, TypeVar
+from typing import Any, Dict, Tuple, Type, TypeVar
 
 
-__all__ = ['get_attributes_doc', 'attributes_doc']
+__all__ = ["get_attributes_doc", "attributes_doc", "enum_doc", "get_doc"]
 
 PY35 = sys.version_info[0:2] >= (3, 5)
 
-T = TypeVar('T')
+T = TypeVar("T")
 
-assign_stmts = (ast.Assign, )  # type: Tuple[Type[ast.stmt], ...]
+assign_stmts = (ast.Assign,)  # type: Tuple[Type[ast.stmt], ...]
 if PY35:
     assign_stmts = (ast.Assign, ast.AnnAssign)
 
@@ -22,6 +22,15 @@ class FStringFound(Exception):
 
 def get_attributes_doc(cls):
     # type: (type) -> Dict[str, str]
+    """
+    Get a dictionary of attribute names to docstrings for the given class.
+
+    Args:
+        cls: The class to get the attributes' docstrings for.
+
+    Returns:
+        Dict[str, str]: A dictionary of attribute names to docstrings.
+    """
     result = {}  # type: Dict[str, str]
     for parent in reversed(cls.mro()):
         if cls is object:
@@ -34,10 +43,7 @@ def get_attributes_doc(cls):
         module = ast.parse(source)
         cls_ast = module.body[0]
         for stmt1, stmt2 in zip(cls_ast.body, cls_ast.body[1:]):  # type: ignore
-            if (
-                    not isinstance(stmt1, assign_stmts)
-                    or not isinstance(stmt2, ast.Expr)
-            ):
+            if not isinstance(stmt1, assign_stmts) or not isinstance(stmt2, ast.Expr):
                 continue
             doc_expr_value = stmt2.value
             if PY35 and isinstance(doc_expr_value, ast.JoinedStr):
@@ -54,6 +60,29 @@ def get_attributes_doc(cls):
 
 def attributes_doc(cls):
     # type: (Type[T]) -> Type[T]
+    """Store the docstings of the attributes of a class in attributes named `__doc_NAME__`."""
     for attr_name, attr_doc in get_attributes_doc(cls).items():
-        setattr(cls, '__doc_%s__' % attr_name, attr_doc)
+        setattr(cls, "__doc_%s__" % attr_name, attr_doc)
     return cls
+
+
+def enum_doc(cls):
+    # type: (Type[T]) -> Type[T]
+    """Store the docstrings of the vaules of an enum in their `__doc__` attribute."""
+    for attr_name, attr_doc in get_attributes_doc(cls).items():
+        getattr(cls, attr_name).__doc__ = attr_doc
+    return cls
+
+
+def get_doc(obj, attr_name):
+    # type: (Any, str) -> str | None
+    """Get the docstring of a class attribute of a class or an instance of that class.
+
+    Args:
+        obj: The class or instance with the class attribute to get the docstring of.
+        attr_name: The name of the class attribute to get the docstring of.
+
+    Returns:
+        str | None: The docstring of the class attribute or None if no docstring was found.
+    """
+    return getattr(obj, "__doc_%s__" % attr_name, None)
