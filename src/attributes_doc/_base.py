@@ -11,7 +11,7 @@ PY35 = sys.version_info[0:2] >= (3, 5)
 
 T = TypeVar("T")
 
-if TYPE_CHECKING:
+if TYPE_CHECKING:  # pragma: no cover
     from enum import Enum
 
     TEnum = TypeVar("TEnum", bound=Enum)
