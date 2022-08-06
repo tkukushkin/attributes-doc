@@ -1,0 +1,6 @@
+[tool.black]
+line-length = 120
+
+[tool.isort]
+profile = "black"
+lines_after_imports = 2
