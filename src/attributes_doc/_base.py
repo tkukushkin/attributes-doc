@@ -1,9 +1,8 @@
 import ast
-from enum import Enum
 import inspect
 import sys
 import textwrap
-from typing import Any, Dict, Tuple, Type, TypeVar
+from typing import TYPE_CHECKING, Any, Dict, Tuple, Type, TypeVar
 
 
 __all__ = ["get_attributes_doc", "attributes_doc", "enum_doc", "get_doc"]
@@ -11,7 +10,11 @@ __all__ = ["get_attributes_doc", "attributes_doc", "enum_doc", "get_doc"]
 PY35 = sys.version_info[0:2] >= (3, 5)
 
 T = TypeVar("T")
-TEnum = TypeVar("TEnum", bound=Enum)
+
+if TYPE_CHECKING:
+    from enum import Enum
+
+    TEnum = TypeVar("TEnum", bound=Enum)
 
 assign_stmts = (ast.Assign,)  # type: Tuple[Type[ast.stmt], ...]
 if PY35:

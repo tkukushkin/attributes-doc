@@ -1,5 +1,7 @@
 import pytest
+
 from attributes_doc import enum_doc
+
 
 enum = pytest.importorskip("enum")
 
