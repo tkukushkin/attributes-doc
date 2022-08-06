@@ -10,6 +10,7 @@ __all__ = ["get_attributes_doc", "attributes_doc", "enum_doc", "get_doc"]
 PY35 = sys.version_info[0:2] >= (3, 5)
 
 T = TypeVar("T")
+TEnum = TypeVar("TEnum")
 
 assign_stmts = (ast.Assign,)  # type: Tuple[Type[ast.stmt], ...]
 if PY35:
@@ -67,10 +68,13 @@ def attributes_doc(cls):
 
 
 def enum_doc(cls):
-    # type: (Type[T]) -> Type[T]
+    # type: (Type[TEnum]) -> Type[TEnum]
     """Store the docstrings of the vaules of an enum in their `__doc__` attribute."""
-    for attr_name, attr_doc in get_attributes_doc(cls).items():
-        getattr(cls, attr_name).__doc__ = attr_doc
+    attributes_doc = get_attributes_doc(cls)
+    for member in cls:
+        doc = attributes_doc.get(member.name)
+        if doc is not None:
+            member.__doc__ = doc
     return cls
 
 
