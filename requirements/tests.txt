@@ -1,0 +1,4 @@
+coverage
+pytest-cov
+pytest; python_version>="3"
+pytest<5; python_version<"3"

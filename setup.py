@@ -23,17 +23,6 @@ setup(
     install_requires=[
         'typing; python_version<"3"',
     ],
-    extras_require={
-        'test': [
-            'coverage',
-            'mypy; python_version>="3.9"',
-            'pycodestyle; python_version>="3.9"',
-            'pylint; python_version>="3.9"',
-            'pytest<5; python_version<"3"',
-            'pytest; python_version>="3"',
-            'pytest-cov',
-        ],
-    },
     classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',

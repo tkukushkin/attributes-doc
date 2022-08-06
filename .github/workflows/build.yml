@@ -4,26 +4,26 @@ on: [push]
 
 jobs:
 
-  build:
+  tests:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         python-version: ['2.7', '3.6', '3.7', '3.8', '3.9', '3.10']
         include:
           - python-version: '2.7'
-            toxenv: py27
+            tox_python_version: '27'
           - python-version: '3.6'
-            toxenv: py36
+            tox_python_version: '36'
           - python-version: '3.7'
-            toxenv: py37
+            tox_python_version: '37'
           - python-version: '3.8'
-            toxenv: py38
+            tox_python_version: '38'
           - python-version: '3.9'
-            toxenv: py39
+            tox_python_version: '39'
           - python-version: '3.10'
-            toxenv: py310
+            tox_python_version: '310'
     env:
-      TOXENV: ${{ matrix.toxenv }}
+      TOXENV: tests_py${{ matrix.tox_python_version }}
 
     steps:
     - uses: actions/checkout@v1
@@ -44,8 +44,24 @@ jobs:
         token: ${{ secrets.CODECOV_TOKEN }}
         file: .tox/${{ matrix.toxenv }}/log/coverage.xml
 
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v1
+      with:
+        python-version: '3.10'
+
+    - name: Test with tox
+      run: |
+        pip install -U tox
+        tox -v -e lint
+
   publish:
-    needs: [build]
+    needs: [tests, lint]
     if: startsWith(github.event.ref, 'refs/tags')
     runs-on: ubuntu-latest
 
