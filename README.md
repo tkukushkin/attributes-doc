@@ -25,14 +25,14 @@ from attributes_doc import attributes_doc
 
 @attributes_doc
 class Foo:
-	bar = 1
-	"""This is the docstring for the bar attribute.
+    bar = 1
+    """This is the docstring for the bar attribute.
 
-	It will be stored in `Foo.__doc_bar__` and will be accessible at runtime.
-	"""
+    It will be stored in `Foo.__doc_bar__` and will be accessible at runtime.
+    """
 
-	baz = 2
-	"""This is the docstring for the baz attribute."""
+    baz = 2
+    """This is the docstring for the baz attribute."""
 
 
 print(Foo.__doc_bar__)
@@ -47,11 +47,11 @@ This function will return a dictionary with the docstrings for all attributes of
 from attributes_doc import get_attributes_doc
 
 class Goo:
-	"""This class doesn't use attributes_doc and we don't want to modify it at all."""
-	bar = 1
-	"""This is the docstring for the bar attribute."""
-	baz = 2
-	"""This is the docstring for the baz attribute."""
+    """This class doesn't use attributes_doc and we don't want to modify it at all."""
+    bar = 1
+    """This is the docstring for the bar attribute."""
+    baz = 2
+    """This is the docstring for the baz attribute."""
 
 docs = get_attributes_doc(Goo)
 print(docs["bar"])
@@ -68,10 +68,10 @@ from enum import Enum
 
 @enum_doc
 class Foo(Enum):
-	bar = 1
-	"""This is the docstring for the bar attribute."""
-	baz = 2
-	"""This is the docstring for the baz attribute."""
+    bar = 1
+    """This is the docstring for the bar attribute."""
+    baz = 2
+    """This is the docstring for the baz attribute."""
 
 print(Foo.bar.__doc__)
 ```
