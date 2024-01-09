@@ -10,7 +10,7 @@ with open(os.path.join(this_directory, "README.md")) as f:
 setup(
     name="attributes-doc",
     version="0.3.0",
-    python_requires='>=3.8',
+    python_requires=">=3.8",
     url="https://github.com/tkukushkin/attributes-doc",
     author="Timofey Kukushkin",
     author_email="tima@kukushkin.me",
