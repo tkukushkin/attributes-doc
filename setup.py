@@ -10,6 +10,7 @@ with open(os.path.join(this_directory, "README.md")) as f:
 setup(
     name="attributes-doc",
     version="0.3.0",
+    python_requires='>=3.8',
     url="https://github.com/tkukushkin/attributes-doc",
     author="Timofey Kukushkin",
     author_email="tima@kukushkin.me",
@@ -20,19 +21,12 @@ setup(
     packages=find_packages("src"),
     package_dir={"": "src"},
     include_package_data=True,
-    install_requires=[
-        'typing; python_version<"3"',
-    ],
     classifiers=[
         "Development Status :: 4 - Beta",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
-        "Programming Language :: Python :: 2",
-        "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.6",
-        "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
