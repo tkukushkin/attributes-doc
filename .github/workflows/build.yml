@@ -8,14 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ['2.7', '3.6', '3.7', '3.8', '3.9', '3.10', '3.11', '3.12']
+        python-version: ['3.8', '3.9', '3.10', '3.11', '3.12']
         include:
-          - python-version: '2.7'
-            tox_python_version: '27'
-          - python-version: '3.6'
-            tox_python_version: '36'
-          - python-version: '3.7'
-            tox_python_version: '37'
           - python-version: '3.8'
             tox_python_version: '38'
           - python-version: '3.9'
