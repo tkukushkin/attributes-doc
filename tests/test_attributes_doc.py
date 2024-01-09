@@ -65,3 +65,16 @@ class TestAttributesDoc(object):
         assert get_doc(Foo4, "b") == "a Doc"
         assert not hasattr(Foo4, "__doc_c__")
         assert get_doc(Foo4, "c") is None
+
+    def test__non_string_docs__no_doc_attributes(self):
+        # act
+        @attributes_doc
+        class Foo1(object):
+            a = 1
+            123
+            b = 2
+            ("1", 2)
+
+        # assert
+        assert not hasattr(Foo1, "__doc_a__")
+        assert not hasattr(Foo1, "__doc_b__")
