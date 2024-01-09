@@ -32,7 +32,7 @@ def get_attributes_doc(cls: type) -> Dict[str, str]:
             continue
         try:
             source = inspect.getsource(parent)
-        except (TypeError, IOError):
+        except (TypeError, OSError):
             continue
         source = textwrap.dedent(source)
         module = ast.parse(source)
@@ -61,7 +61,7 @@ def get_attributes_doc(cls: type) -> Dict[str, str]:
 def attributes_doc(cls: Type[T]) -> Type[T]:
     """Store the docstings of the attributes of a class in attributes named `__doc_NAME__`."""
     for attr_name, attr_doc in get_attributes_doc(cls).items():
-        setattr(cls, "__doc_{}__".format(attr_name), attr_doc)
+        setattr(cls, f"__doc_{attr_name}__", attr_doc)
     return cls
 
 
@@ -85,4 +85,4 @@ def get_doc(obj: Any, attr_name: str) -> Optional[str]:
     Returns:
         str | None: The docstring of the class attribute or None if no docstring was found.
     """
-    return getattr(obj, "__doc_{}__".format(attr_name), None)
+    return getattr(obj, f"__doc_{attr_name}__", None)
