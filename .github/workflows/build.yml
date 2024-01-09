@@ -43,7 +43,7 @@ jobs:
         tox -v
 
     - name: Upload code coverage
-      uses: codecov/codecov-action@v1.0.3
+      uses: codecov/codecov-action@v3
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
         file: .tox/tests-py${{ matrix.tox_python_version }}/log/coverage.xml
