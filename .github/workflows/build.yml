@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ['2.7', '3.6', '3.7', '3.8', '3.9', '3.10']
+        python-version: ['2.7', '3.6', '3.7', '3.8', '3.9', '3.10', '3.11', '3.12']
         include:
           - python-version: '2.7'
             tox_python_version: '27'
@@ -22,8 +22,12 @@ jobs:
             tox_python_version: '39'
           - python-version: '3.10'
             tox_python_version: '310'
+          - python-version: '3.11'
+            tox_python_version: '311'
+          - python-version: '3.12'
+            tox_python_version: '312'
     env:
-      TOXENV: tests_py${{ matrix.tox_python_version }}
+      TOXENV: tests-py${{ matrix.tox_python_version }}
 
     steps:
     - uses: actions/checkout@v1
@@ -42,7 +46,7 @@ jobs:
       uses: codecov/codecov-action@v1.0.3
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
-        file: .tox/tests_py${{ matrix.tox_python_version }}/log/coverage.xml
+        file: .tox/tests-py${{ matrix.tox_python_version }}/log/coverage.xml
 
   lint:
     runs-on: ubuntu-latest
