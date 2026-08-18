@@ -1,11 +1,11 @@
 from attributes_doc import attributes_doc, get_doc
 
 
-class TestAttributesDoc(object):
+class TestAttributesDoc:
     def test__no_doc_strings__no_doc_attributes(self):
         # act
         @attributes_doc
-        class Foo1(object):
+        class Foo1:
             a = 1
             b = 2
 
@@ -16,7 +16,7 @@ class TestAttributesDoc(object):
     def test__cls_with_doc_string__no_doc_attributes_for_fields(self):
         # act
         @attributes_doc
-        class Foo2(object):
+        class Foo2:
             """Foo Doc"""
 
             a = 1
@@ -34,7 +34,7 @@ class TestAttributesDoc(object):
     ):
         # act
         @attributes_doc
-        class Foo3(object):
+        class Foo3:
             """Foo Doc"""
 
             a = 1
@@ -44,7 +44,7 @@ class TestAttributesDoc(object):
 
         # assert
         assert Foo3.__doc__ == "Foo Doc"
-        assert Foo3.__doc_a__ == "a Doc"
+        assert Foo3.__doc_a__ == "a Doc"  # ty: ignore[unresolved-attribute]
         assert get_doc(Foo3, "a") == "a Doc"
         assert not hasattr(Foo3, "__doc_b__")
         assert get_doc(Foo3, "b") is None
@@ -52,16 +52,16 @@ class TestAttributesDoc(object):
     def test__multiple_assignment__expected_one_doc_string_for_all_fields(self):
         # act
         @attributes_doc
-        class Foo4(object):
+        class Foo4:
             a = b = 1
             """a Doc"""
 
             c = 3
 
         # assert
-        assert Foo4.__doc_a__ == "a Doc"
+        assert Foo4.__doc_a__ == "a Doc"  # ty: ignore[unresolved-attribute]
         assert get_doc(Foo4, "a") == "a Doc"
-        assert Foo4.__doc_b__ == "a Doc"
+        assert Foo4.__doc_b__ == "a Doc"  # ty: ignore[unresolved-attribute]
         assert get_doc(Foo4, "b") == "a Doc"
         assert not hasattr(Foo4, "__doc_c__")
         assert get_doc(Foo4, "c") is None
@@ -69,11 +69,11 @@ class TestAttributesDoc(object):
     def test__non_string_docs__no_doc_attributes(self):
         # act
         @attributes_doc
-        class Foo1(object):
+        class Foo1:
             a = 1
-            123
+            123  # noqa: B018
             b = 2
-            ("1", 2)
+            ("1", 2)  # noqa: B018
 
         # assert
         assert not hasattr(Foo1, "__doc_a__")

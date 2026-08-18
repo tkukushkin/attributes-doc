@@ -1,7 +1,2 @@
-.pytest_cache/
-.tox/
-.vscode/
 *.egg-info/
-*.pyc
-*.venv
-build/
+__pycache__/

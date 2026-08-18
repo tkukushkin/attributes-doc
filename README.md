@@ -2,7 +2,7 @@
 
 [![PyPI version](https://badge.fury.io/py/attributes-doc.svg)](https://pypi.org/project/attributes-doc/)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/attributes-doc.svg?color=green)
-[![Build Status](https://github.com/tkukushkin/attributes-doc/workflows/build/badge.svg?branch=master)](https://github.com/tkukushkin/attributes-doc/actions?query=workflow%3Abuild+branch%3Amaster)
+[![Check](https://github.com/tkukushkin/attributes-doc/actions/workflows/check.yml/badge.svg?branch=master)](https://github.com/tkukushkin/attributes-doc/actions/workflows/check.yml?query=branch%3Amaster)
 [![codecov](https://codecov.io/gh/tkukushkin/attributes-doc/branch/master/graph/badge.svg)](https://codecov.io/gh/tkukushkin/attributes-doc)
 
 
@@ -22,6 +22,7 @@ This function is a class decorator, and using it on a class will set class attri
 
 ```py
 from attributes_doc import attributes_doc
+
 
 @attributes_doc
 class Foo:
@@ -46,12 +47,15 @@ This function will return a dictionary with the docstrings for all attributes of
 ```py
 from attributes_doc import get_attributes_doc
 
+
 class Goo:
     """This class doesn't use attributes_doc and we don't want to modify it at all."""
+
     bar = 1
     """This is the docstring for the bar attribute."""
     baz = 2
     """This is the docstring for the baz attribute."""
+
 
 docs = get_attributes_doc(Goo)
 print(docs["bar"])
@@ -66,12 +70,14 @@ This is also a class decorator, but it is intended for Enum classes. Instead of 
 from attributes_doc import enum_doc
 from enum import Enum
 
+
 @enum_doc
 class Foo(Enum):
     bar = 1
     """This is the docstring for the bar attribute."""
     baz = 2
     """This is the docstring for the baz attribute."""
+
 
 print(Foo.bar.__doc__)
 ```
@@ -83,5 +89,5 @@ This function will return the docstring of an attribute of a class.
 ```py
 from attributes_doc import get_doc
 
-print(get_doc(Foo, "baz")) # Instead of getattr(Foo, "__doc_baz__") above
+print(get_doc(Foo, "baz"))  # Instead of getattr(Foo, "__doc_baz__") above
 ```

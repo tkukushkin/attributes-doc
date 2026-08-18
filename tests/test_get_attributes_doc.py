@@ -1,10 +1,10 @@
 from attributes_doc import get_attributes_doc
 
 
-class TestGetAttributesDoc(object):
+class TestGetAttributesDoc:
     def test__no_doc_strings__no_doc_attributes(self):
         # arrange
-        class Foo1(object):
+        class Foo1:
             a = 1
             b = 2
 
@@ -16,7 +16,7 @@ class TestGetAttributesDoc(object):
 
     def test__cls_with_doc_string__no_doc_attributes_for_fields(self):
         # arrange
-        class Foo2(object):
+        class Foo2:
             """Foo Doc"""
 
             a = 1
@@ -32,7 +32,7 @@ class TestGetAttributesDoc(object):
         self,
     ):
         # arrange
-        class Foo3(object):
+        class Foo3:
             """Foo Doc"""
 
             a = 1
@@ -48,7 +48,7 @@ class TestGetAttributesDoc(object):
 
     def test__multiple_assignment__expected_one_doc_string_for_all_fields(self):
         # arrange
-        class Foo4(object):
+        class Foo4:
             a = b = 1
             """a Doc"""
 
@@ -62,7 +62,7 @@ class TestGetAttributesDoc(object):
 
     def test__derived_classes(self):
         # arrange
-        class Bar(object):
+        class Bar:
             a = 1
             """a Doc"""
 

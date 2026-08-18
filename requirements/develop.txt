@@ -1,4 +1,0 @@
--e .
--r lint.txt
--r tests.txt
-tox

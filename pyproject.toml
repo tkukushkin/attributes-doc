@@ -1,6 +1,48 @@
-[tool.black]
-line-length = 120
+[build-system]
+requires = ["setuptools >= 64", "setuptools-scm >= 8"]
+build-backend = "setuptools.build_meta"
 
-[tool.isort]
-profile = "black"
-lines_after_imports = 2
+[project]
+dynamic = ["version"]
+name = "attributes-doc"
+requires-python = ">=3.10"
+authors = [{ name = "Timofei Kukushkin", email = "tima@kukushkin.me" }]
+description = "PEP 224 implementation"
+readme = "README.md"
+license = { file = "LICENSE" }
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+[project.urls]
+Source = "https://github.com/tkukushkin/attributes-doc"
+
+[dependency-groups]
+test = [
+  "pytest",
+  "pytest-cov",
+]
+lint = [
+  { include-group = "test" },
+  "ruff",
+  "ty",
+  "pyright",
+]
+dev = [
+  { include-group = "lint" },
+  "tox",
+  "tox-uv",
+  "uv",
+]
+
+[tool.setuptools_scm]

@@ -1,0 +1,19 @@
+[run]
+source = ["src"]
+branch = true
+parallel = true
+context = "$COVERAGE_CONTEXT"
+
+[report]
+show_missing = true
+exclude_also = [
+  "^ +pass$",
+  "^ +raise NotImplementedError",
+  "^ +raise AssertionError",
+  "^ +assert_never\\(",
+  "^ *if TYPE_CHECKING:$",
+  "^ *except (ImportError|ModuleNotFoundError)",
+]
+
+[html]
+show_contexts = true

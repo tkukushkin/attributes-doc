@@ -2,11 +2,10 @@ import pytest
 
 from attributes_doc import enum_doc
 
-
 enum = pytest.importorskip("enum")
 
 
-class TestEnumDoc(object):
+class TestEnumDoc:
     def test__no_doc_strings__no_doc_attributes(self):
         # act
         @enum_doc

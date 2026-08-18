@@ -2,21 +2,20 @@ import ast
 import inspect
 import textwrap
 from enum import Enum
-from typing import Any, Dict, Optional, Type, TypeVar
+from typing import Any, TypeVar
 
-
-__all__ = ["get_attributes_doc", "attributes_doc", "enum_doc", "get_doc"]
+__all__ = ["attributes_doc", "enum_doc", "get_attributes_doc", "get_doc"]
 
 T = TypeVar("T")
 
 TEnum = TypeVar("TEnum", bound=Enum)
 
 
-class FStringFound(Exception):
+class FStringFound(Exception):  # noqa: N818
     pass
 
 
-def get_attributes_doc(cls: type) -> Dict[str, str]:
+def get_attributes_doc(cls: type) -> dict[str, str]:
     """
     Get a dictionary of attribute names to docstrings for the given class.
 
@@ -26,7 +25,7 @@ def get_attributes_doc(cls: type) -> Dict[str, str]:
     Returns:
         Dict[str, str]: A dictionary of attribute names to docstrings.
     """
-    result: Dict[str, str] = {}
+    result: dict[str, str] = {}
     for parent in reversed(cls.mro()):
         if cls is object:
             continue
@@ -37,17 +36,17 @@ def get_attributes_doc(cls: type) -> Dict[str, str]:
         source = textwrap.dedent(source)
         module = ast.parse(source)
         cls_ast = module.body[0]
-        for stmt1, stmt2 in zip(cls_ast.body, cls_ast.body[1:]):  # type: ignore
+        if not isinstance(cls_ast, ast.ClassDef):
+            continue
+        for stmt1, stmt2 in zip(cls_ast.body, cls_ast.body[1:], strict=False):
             if not isinstance(stmt1, (ast.Assign, ast.AnnAssign)) or not isinstance(stmt2, ast.Expr):
                 continue
             doc_expr_value = stmt2.value
             if isinstance(doc_expr_value, ast.JoinedStr):
                 raise FStringFound
             if isinstance(doc_expr_value, ast.Constant):
-                if isinstance(stmt1, ast.AnnAssign):
-                    attr_names = [stmt1.target.id]  # type: ignore
-                else:
-                    attr_names = [target.id for target in stmt1.targets]  # type: ignore
+                targets = [stmt1.target] if isinstance(stmt1, ast.AnnAssign) else stmt1.targets
+                attr_names = [target.id for target in targets if isinstance(target, ast.Name)]
 
                 attr_doc_value = doc_expr_value.value
                 if not isinstance(attr_doc_value, str):
@@ -58,14 +57,14 @@ def get_attributes_doc(cls: type) -> Dict[str, str]:
     return result
 
 
-def attributes_doc(cls: Type[T]) -> Type[T]:
+def attributes_doc(cls: type[T]) -> type[T]:
     """Store the docstings of the attributes of a class in attributes named `__doc_NAME__`."""
     for attr_name, attr_doc in get_attributes_doc(cls).items():
         setattr(cls, f"__doc_{attr_name}__", attr_doc)
     return cls
 
 
-def enum_doc(cls: Type[TEnum]) -> Type[TEnum]:
+def enum_doc(cls: type[TEnum]) -> type[TEnum]:
     """Store the docstrings of the vaules of an enum in their `__doc__` attribute."""
     docs = get_attributes_doc(cls)
     for member in cls:
@@ -75,7 +74,7 @@ def enum_doc(cls: Type[TEnum]) -> Type[TEnum]:
     return cls
 
 
-def get_doc(obj: Any, attr_name: str) -> Optional[str]:
+def get_doc(obj: Any, attr_name: str) -> str | None:
     """Get the docstring of a class attribute of a class or an instance of that class.
 
     Args:
